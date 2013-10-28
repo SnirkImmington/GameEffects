@@ -117,6 +117,16 @@ namespace RegionEffects
                 #endregion
 
                 #region Defense Targeter
+                new Targeter("defense", "Target players with \"<defense\" or \">defense\"", (RegionPlayer p, string a) =>
+                    {
+                        Func<int, bool> valid; int val = int.Parse(a.Substring(1));
+
+                        if (a[0] == '>') valid = i => i > val;
+                        else valid = i => i < val;
+
+                        return valid(p.Player.statDefense);
+
+                    }, DamageValidator),
                 #endregion
 
                 #region Token Targeter
@@ -180,7 +190,7 @@ namespace RegionEffects
 
                 #region Permissions
                 new RegionEffect("perm", "Gives the player additional permissions",
-                    PermImplementation, true),
+                    PermImplementation),
                 #endregion
 
                 #region Various Commands

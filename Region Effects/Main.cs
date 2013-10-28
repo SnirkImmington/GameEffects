@@ -45,7 +45,7 @@ namespace RegionEffects
                 {
                     var copyGroup = new Group(ts.Group.Name, ts.Group.Parent, ts.Group.ChatColor, string.Join(",", ts.Group.permissions));
 
-                    ts.Group = copyGroup;
+                    ts.Group = copyGroup; ts.RPlayer().Permissions = ts.Group.permissions.ToArray();
                 }
             }
         }
@@ -215,6 +215,17 @@ namespace RegionEffects
                     #endregion
                 }
             #endregion
+        }
+
+        private static void CheckToken(CommandArgs com)
+        {
+            com.Player.SendMessage("Tokens: " + string.Join(", ", com.Player.RPlayer().Tokens));
+        }
+
+        private static void CheckPerms(CommandArgs com)
+        {
+            Console.WriteLine("TShock: " + string.Join(", ", com.Player.Group.permissions));
+            Console.WriteLine("Saved: " + string.Join(", ", com.Player.RPlayer().Permissions));
         }
 
         #endregion

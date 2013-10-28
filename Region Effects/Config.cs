@@ -12,6 +12,7 @@ namespace RegionEffects
         public static string SetEffectRegionsPermission = "reffect.set";
         public static string ViewRegionEffectsPermission = "reffect.see";
         public static string CantLosePermissionsFromRegionPerm = "reffect.noloss";
+        public static string MakeDangerousRegionEffectsPermission = "*";
         public static string ReloadConfigPermission = Permissions.maintenance;
 
         /// <summary>
