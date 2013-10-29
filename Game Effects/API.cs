@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using TShockAPI;
 using Terraria;
 
-namespace RegionEffects
+namespace GameEffects
 {
     /// <summary>
     /// Contains public API functions and methods for external use.
@@ -15,6 +15,7 @@ namespace RegionEffects
     {
         public static List<Targeter>   Targeters = new List<Targeter>();
         public static List<RegionEffect> Effects = new List<RegionEffect>();
+        public static List<Variable>   Variables = new List<Variable>();
 
         #region GetRegions
 
@@ -140,7 +141,7 @@ namespace RegionEffects
                 new RegionEffect("buff", "Buffs the player using buff syntax", BuffImplementation, false, BuffValidator),
 
                 #region Banned Item Effect
-                new RegionEffect("ban", e =>
+                new RegionEffect("ban", "Disables the player from using item", e =>
                     {
                         var inv = e.Player.Player.inventory.ToList();
                         inv.AddRange(e.Player.Player.armor);
@@ -210,6 +211,11 @@ namespace RegionEffects
                 new RegionEffect("addtoken", "Gives the player that token.", s => s.Player.Tokens.Add(s.Argument), true),
                 new RegionEffect("deltoken", "Removes a token from the player", s => s.Player.Tokens.Remove(s.Argument), true),
                 #endregion
+            });
+
+            Variables.AddRange(new Variable[] {
+                new Variable("ply", a => a.Player.Player.name),
+                //new Variable("
             });
         }
 
@@ -338,6 +344,22 @@ namespace RegionEffects
         public static RegionPlayer RPlayer(this TSPlayer ply)
         {
             return PluginMain.Players.FirstOrDefault(p => p.Index == ply.Index);
+        }
+
+        public static void ParseString(string inp)
+        {
+            string str = "[a [b [c [d value]]]]";
+
+        while (str.Trim().Length > 0)
+        {
+            int start = str.LastIndexOf('[');
+            int end = str.IndexOf(']');
+
+            string s = str.Substring(start +1, end - (start+1)).Trim();
+            string[] pair = s.Split(' ');// this is what you are looking for. its length will be 2 if it has a value
+
+            str = str.Remove(start, (end + 1)- start);
+        }
         }
     }
 }

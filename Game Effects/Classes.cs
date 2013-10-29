@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Terraria;
 using TShockAPI;
 
-namespace RegionEffects
+namespace GameEffects
 {
     /// <summary>
     /// Contains data for regions with effects.
@@ -133,7 +133,7 @@ namespace RegionEffects
         /// <summary>
         /// Determines if a given input (i.e. item(!excal)) is valid.
         /// </summary>
-        /// <param name="input">The input for this <typeparamref name="RegionEffects.Targeter"/> is valid.</param>
+        /// <param name="input">The input for this <typeparamref name="GameEffects.Targeter"/> is valid.</param>
         /// <returns>Whether the input is valid.</returns>
         public bool IsValidInput(string input)
         {
@@ -288,7 +288,45 @@ namespace RegionEffects
     {
     }
 
+    /// <summary>
+    /// Information for 3rd party variables.
+    /// </summary>
+    public class VariableArgs
+    {
+        public RegionPlayer Player { get; set; }
+        public EffectsRegion Region { get; set; }
+        public string Argument { get; set; }
+        public string Name { get; set; }
 
+        public VariableArgs(RegionPlayer player, string name)
+        { Player = player; Name = name; }
+    }
+
+    /// <summary>
+    /// Represents a text-replaceable value in the plugin.
+    /// </summary>
+    public class Variable
+    {
+        public string Name { get; private set; }
+        public string Parameter { get; set; }
+        public Func<VariableArgs, string> Replacement { get; set; }
+        public Func<string, bool> ParamVerifier { get; set; }
+
+        public Variable(string name, Func<VariableArgs, string> replacement)
+        { Name = name; Replacement = replacement; ParamVerifier = s => true; }
+    }
+
+    /// <summary>
+    /// Arguments for GameEffects.
+    /// </summary>
+    public class EffectArgs
+    {
+        public RegionPlayer Player { get; set; }
+        public string Argument { get; set; }
+
+        public EffectArgs(RegionPlayer player, string argument)
+        { Player = player; Argument = argument; }
+    }
 
     /// <summary>
     /// Provides plugin-specific regional player properties 
@@ -309,7 +347,7 @@ namespace RegionEffects
         /// </summary>
         public Player Player { get { return Main.player[Index]; } }
         /// <summary>
-        /// RegionEffects saves player's permissions so it can temporarily give the player extra permissions.
+        /// GameEffects saves player's permissions so it can temporarily give the player extra permissions.
         /// </summary>
         public string[] Permissions { get; internal set; }
         /// <summary>

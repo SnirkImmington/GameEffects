@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Region Effects")]
-[assembly: AssemblyDescription("Gives your regions effects")]
+[assembly: AssemblyTitle("Game Effects")]
+[assembly: AssemblyDescription("Gives your game effects")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Immington Industries")]
-[assembly: AssemblyProduct("Region Effects")]
+[assembly: AssemblyProduct("Game Effects")]
 [assembly: AssemblyCopyright("Copyright © Snirk Immington 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

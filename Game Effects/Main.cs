@@ -7,7 +7,7 @@ using TerrariaApi.Server;
 using TShockAPI;
 using Terraria;
 using TShockAPI.Hooks;
-namespace RegionEffects
+namespace GameEffects
 {
     [ApiVersion(1,14)]
     public class PluginMain : TerrariaPlugin
@@ -108,6 +108,11 @@ namespace RegionEffects
             #region No Parameters
             if (com.Parameters.Count == 0)
             {
+                com.Player.SendInfoMessage("Region Effects command subcommands [for more info see /re help wiki]:");
+                com.Player.SendSuccessMessage("/re add|del|set - commands for Region Effects on TShock regions.");
+                com.Player.SendInfoMessage("/re list effects|targets|regions - lists available commands or EffectRegions.");
+                com.Player.SendInfoMessage("/re help [subcommand] - gets info about the plugin or a subcommand!");
+                return;
             }
             #endregion
 
@@ -127,6 +132,18 @@ namespace RegionEffects
                             #region Help Targeters
                             #endregion
 
+                            #region Help Buffs
+
+
+                            #endregion
+
+                            #region Help Wiki
+                            case "wiki": case "help": case "info":
+                                com.Player.SendInfoMessage("A comprehensive guide to the plugin can be found on the GitHub Wiki.");
+                                com.Player.SendInfoMessage("You can visit its page in the TShock forums for information and examples.");
+                                com.Player.SendInfoMessage("Github - https://github.com/SnirkImmington/GameEffects"); return;
+                            #endregion
+
                             #region Help ????
                             default:
                                 com.Player.SendInfoMessage("Usage: /re help [effects|targeters|buffs]. Also try /re examples.");
@@ -138,7 +155,7 @@ namespace RegionEffects
                     else // No param
                     {
                         // Tell about plugin
-                        com.Player.SendInfoMessage("RegionEffects is a plugin designed to allow you to program regions with cool effects.");
+                        com.Player.SendInfoMessage("GameEffects is a plugin designed to allow you to program regions with cool effects.");
                         com.Player.SendInfoMessage("These Effects are things like buffing a player, sending them a message, or giving them an item.");
                         com.Player.SendInfoMessage("You can target specific players with Targeters. For example, I can autoheal people on only the blue team.");
                         com.Player.SendInfoMessage("These effects are attached to a region with /re set {effects} and /re setr {region} {effects}.");
@@ -159,13 +176,13 @@ namespace RegionEffects
                         switch (com.Parameters[1].ToLower())
                         {
                             #region List Effects
-                            case "effects": case "regioneffects": case "effect": case "e":
+                            case "effects": case "GameEffects": case "effect": case "e":
                                 PaginationTools.SendPage(com.Player, page, PaginationTools.BuildLinesFromTerms(
                                     API.Effects.ConvertAll(e => e.Name + " - " + e.Description)),
                                     new PaginationTools.Settings
                                     {
                                         HeaderFormat = "Effects ({0}/{1}):", FooterFormat = "Type /re 'e'ffects {0} for more.",
-                                        NothingToDisplayString = "There are currently no RegionEffects. This is bad! Tell Snirk.",
+                                        NothingToDisplayString = "There are currently no GameEffects. This is bad! Tell Snirk.",
                                     }); return;
                             #endregion
 
@@ -180,7 +197,7 @@ namespace RegionEffects
                                     }); return;
                             #endregion
 
-                            #region List Buffs
+                            #region List Regions
                             case "regions": case "region": case "r":
                                 PaginationTools.SendPage(com.Player, page, PaginationTools.BuildLinesFromTerms(
                                     Database.Regions.ConvertAll(r => r.RegionName)), new PaginationTools.Settings

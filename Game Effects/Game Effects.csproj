@@ -7,8 +7,8 @@
     <ProjectGuid>{0143C00E-C447-4527-8C6D-2818032FD291}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RegionEffects</RootNamespace>
-    <AssemblyName>Region Effects</AssemblyName>
+    <RootNamespace>GameEffects</RootNamespace>
+    <AssemblyName>Game Effects</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -47,11 +47,16 @@
   <ItemGroup>
     <Compile Include="API.cs" />
     <Compile Include="Config.cs" />
+    <Compile Include="Effect Hosing\EffectBase.cs" />
+    <Compile Include="Effect Hosing\EffectPlayer.cs" />
+    <Compile Include="Effect Hosing\Event.cs" />
+    <Compile Include="Effect Hosing\Parsing.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Classes.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Thread.cs" />
+    <Compile Include="Effect Hosing\Regions.cs" />
+    <Compile Include="Effect Hosing\WireEffect.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

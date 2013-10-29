@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RegionEffects
+namespace GameEffects
 {
-    class Thread
+    class WireEffect : Effect
     {
     }
 }

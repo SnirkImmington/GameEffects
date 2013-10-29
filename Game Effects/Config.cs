@@ -5,14 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using TShockAPI;
 
-namespace RegionEffects
+namespace GameEffects
 {
     class Config
     {
         public static string SetEffectRegionsPermission = "reffect.set";
-        public static string ViewRegionEffectsPermission = "reffect.see";
+        public static string ViewGameEffectsPermission = "reffect.see";
         public static string CantLosePermissionsFromRegionPerm = "reffect.noloss";
-        public static string MakeDangerousRegionEffectsPermission = "*";
+        public static string MakeDangerousGameEffectsPermission = "*";
         public static string ReloadConfigPermission = Permissions.maintenance;
 
         /// <summary>
