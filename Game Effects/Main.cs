@@ -13,7 +13,7 @@ namespace GameEffects
     public class PluginMain : TerrariaPlugin
     {
         #region Variables
-        internal static List<RegionPlayer> Players = new List<RegionPlayer>();
+        internal static List<EffectPlayer> Players = new List<RegionPlayer>();
         #endregion
 
         #region Overrides

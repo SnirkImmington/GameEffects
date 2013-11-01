@@ -11,7 +11,7 @@ namespace GameEffects
     /// <summary>
     /// Contains data for regions with effects.
     /// </summary>
-    class EffectsRegion
+    class EffectsRegion // : EffectHostBase
     {
         /// <summary>
         /// The name of the matched region.
@@ -116,7 +116,7 @@ namespace GameEffects
         /// using this targeter's saved parameter for reference.
         /// </summary>
         /// <param name="ply">The player to target.</param>
-        public bool Affects(RegionPlayer ply)
+        public bool Affects(EffectPlayer ply)
         {
             return Target(ply, this.Parameter);
         }
@@ -126,7 +126,7 @@ namespace GameEffects
         /// </summary>
         /// <param name="ply">The RegionPlayer being targeted.</param>
         /// <param name="argument">The argument to the Targeter.</param>
-        public bool Affects(RegionPlayer ply, string argument)
+        public bool Affects(EffectPlayer ply, string argument)
         {
             return Target(ply, argument);
         }
@@ -143,7 +143,7 @@ namespace GameEffects
         /// Returns a new Targeter instance with this one's values, with <paramref name="param"/>
         /// as in input, ready for application on the regions.
         /// </summary>
-        public Targeter WithInput(string param)
+        public Targeter WithParam(string param)
         {
             return new Targeter(Name, Target, ArgumentValidator) { Parameter = this.Parameter };
         }
@@ -160,11 +160,23 @@ namespace GameEffects
         #endregion
     }
 
+    public class TargererArgs
+    {
+        public EffectPlayer Player { get; set; }
+        public string Argument { get; set; }
+    }
+
+    public class VariableArgs
+    {
+        public EffectPlayer Player { get;set;}
+        public string Argument { get;set;}
+    }
+
     /// <summary>
     /// Contains data for methods referring to the effects of
     /// EffectsReions.
     /// </summary>
-    public class RegionEffectArgs
+    public class RegionEffectArgs : PlayerParamArgs
     {
         /// <summary>
         /// The player affected.
@@ -314,18 +326,6 @@ namespace GameEffects
 
         public Variable(string name, Func<VariableArgs, string> replacement)
         { Name = name; Replacement = replacement; ParamVerifier = s => true; }
-    }
-
-    /// <summary>
-    /// Arguments for GameEffects.
-    /// </summary>
-    public class EffectArgs
-    {
-        public RegionPlayer Player { get; set; }
-        public string Argument { get; set; }
-
-        public EffectArgs(RegionPlayer player, string argument)
-        { Player = player; Argument = argument; }
     }
 
     /// <summary>

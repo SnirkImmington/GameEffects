@@ -9,10 +9,151 @@ using Terraria;
 namespace GameEffects
 {
     /// <summary>
+    /// Contains API info for Targeters. 
+    /// Targeters are used at the beginning of Effect Chains to determine if an effect will target a player.
+    /// <example>The targeter "pvp" takes an argument of on/off (uses API.PvPParse) and will
+    /// only target players whos PvP state matches the one specified.</example>
+    /// </summary>
+    public class TargeterInfo : INameDescripted
+    {
+        /// <summary>
+        /// The name of the Targeter to be invoked in command chains.
+        /// </summary>
+        public string Name { get; private set; }
+        /// <summary>
+        /// A description of the targeter, for /effect list targeters.
+        /// Should be a one-line quick overview.
+        /// </summary>
+        public string Description { get; private set; }
+        /// <summary>
+        /// The usage of the targeter, to be listed in /effects help targeter [name].
+        /// Can be multiline and should go into details.
+        /// </summary>
+        public string HelpText { get; private set; }
+
+        /// <summary>
+        /// The function called to determine if a player is targeted, taking a PlayerParamArgs.
+        /// Precondidtion: The input is checked with the <paramref name="paramValidator"/>.
+        /// </summary>
+        public Func<PlayerParamArgs, bool> Function { get; private set; }
+        /// <summary>
+        /// A function that determines if input for a player is valid.
+        /// Called when a host is created.
+        /// For example, return false if an input cannot be parsed into an int.
+        /// </summary>
+        public Func<string, bool> ParamValidator { get; private set; }
+
+        /// <summary>
+        /// Creates a TargeterInfo for the API, with name, displays, and a function to check players.
+        /// </summary>
+        /// <param name="name">The name of the Targeter (i.e. isonline)</param>
+        /// <param name="description">A description of the targeter, for /effect list targeters.
+        /// Should be a one-line quick overview.</param>
+        /// <param name="helpText">The usage of the targeter, to be listed in /effects help targeter [name].
+        /// Can be multiline and should go into details.</param>
+        /// <param name="function">The function called to determine if a player is targeted, taking a PlayerParamArgs.
+        /// Precondidtion: The input is checked with the <paramref name="paramValidator"/>.</param>
+        public TargeterInfo(string name, string description, string helpText, Func<PlayerParamArgs> function)
+        {
+            Name = name; Description = description; HelpText = helpText; 
+            Function = function; ParamValidator = s => true;
+        }
+
+        /// <summary>
+        /// Creates a TargeterInfo for the API, with name, displays, a function (bool) to check players,
+        /// and a function (bool) to check input arguments to the Targeter when it is created.
+        /// </summary>
+        /// <param name="name">The name of the Targeter (i.e. isonline)</param>
+        /// <param name="description">A description of the targeter, for targeters.
+        /// Should be a one-line quick overview.</param>
+        /// <param name="helpText">The usage of the targeter, to be listed in /effects help targeter [name].
+        /// Can be multiline and should go into details.</param>
+        /// <param name="function">The function called to determine if a player is targeted, taking a PlayerParamArgs.
+        /// Precondidtion: The input is checked with the <paramref name="paramValidator"/>.</param>
+        /// <param name="paramvalidator">The function called to determine if a given input is valid</param>
+        public TargeterInfo(string name, string description, string helpText, 
+            Func<PlayerParamArgs> function, Func<string, bool> paramvalidator)
+            : this(name, description, helpText, function) { ParamValidator = paramvalidator; }
+    }
+
+    /// <summary>
+    /// Contains API info for Effects.
+    /// Effects are methods executed by the EffectHost when it is triggered by a player who satisfies the Targeters.
+    /// <example>The "give" effect takes an item as an arguement, so "give(excal 1 legendary)" will give the player one Legendary Excalibur.</example>
+    /// </summary>
+    public class EffectInfo : INameDescripted
+    {
+        /// <summary>
+        /// The name of the Effect to be invoked in command chains.
+        /// </summary>
+        public string Name { get; private set; }
+        /// <summary>
+        /// A description of the effect, for /effect list effects.
+        /// Should be a one-line quick overview.
+        /// </summary>
+        public string Description { get; private set; }
+        /// <summary>
+        /// The effects of the effect, to be used in /effects help effect.
+        /// Can be multiline and should go into details.
+        /// </summary>
+        public string HelpText { get; private set; }
+        /// <summary>
+        /// Set this to true to prevent anyone without this plugin's
+        /// MakeDangerousGameEffectsPermission from creating this effect.
+        /// </summary>
+        public bool IsDangerous { get; private set; }
+
+        /// <summary>
+        /// The method that is called when the event is triggered.
+        /// </summary>
+        public Action<PlayerParamArgs> Action { get; set; }
+        /// <summary>
+        /// An optional method to determine if input is valid. Called when the effect is defined by a player.
+        /// </summary>
+        public Func<string, bool> ParamValidator { get; private set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="isDangerous"></param>
+        /// <param name="description"></param>
+        /// <param name="helpText"></param>
+        /// <param name="action"></param>
+        public EffectInfo(string name, bool isDangerous, string description, 
+            string helpText, Action<PlayerParamArgs> action)
+        {
+            Name = name; Description = description; HelpText = helpText; 
+            IsDangerous = isDangerous; Action = action;
+            ParamValidator = s => true;
+        }
+
+        public EffectInfo(string name, bool isDangerous, string description,
+            string helpText, Action<PlayerParamArgs> action, Func<string, bool> paramValidator)
+            : this(name, isDangerous, description, helpText, action) { ParamValidator = paramValidator; }
+    }
+
+    public class VariableInfo
+    {
+    }
+
+    public class HostInfo
+    {
+    }
+
+    public interface INameDescripted
+    {
+        string Name; string Description; string HelpText;
+    }
+
+    /// <summary>
     /// Contains public API functions and methods for external use.
     /// </summary>
     public static class API
     {
+        /// <summary>
+        /// Add any new Targeters your plugin adds as TargeterInfos to this list.
+        /// </summary>
         public static List<Targeter>   Targeters = new List<Targeter>();
         public static List<RegionEffect> Effects = new List<RegionEffect>();
         public static List<Variable>   Variables = new List<Variable>();

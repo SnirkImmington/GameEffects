@@ -9,7 +9,7 @@ namespace GameEffects
 {
     static class Database
     {
-        public static List<EffectsRegion> Regions { get; set; }
+        public static List<EffectHostBase> Effects { get; set; }
 
         public static void Initialize()
         {

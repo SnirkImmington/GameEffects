@@ -15,6 +15,7 @@ namespace GameEffects
         public Player   Player   { get { return Main.player[Index]; } }
 
         internal string[] DefaultPermissions { get; set; }
+        public Dictionary<string, string> Tokens { get; set; }
 
         internal EffectPlayer(int index)
         {
